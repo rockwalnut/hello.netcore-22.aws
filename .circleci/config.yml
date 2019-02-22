@@ -9,7 +9,9 @@ jobs:
       - run: dotnet restore
       - run: dotnet build
     # - run: dotnet test --no-build Build.Tests
-  
+    # public
+    # package
+    # copy to EC2
   
 #  deploy:
 #      docker:
