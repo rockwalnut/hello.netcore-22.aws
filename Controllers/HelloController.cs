@@ -10,9 +10,9 @@ namespace hello.netcore_22.aws.Controllers
     [ApiController]
     public class HelloController : ControllerBase
     {
-        [Route("get")]
+        [Route("")]
         [HttpGet]
-        public ActionResult<string> Get()
+        public ActionResult<string> Index()
         {
             return "Hello World with .NETCore Web API at " + DateTime.Now;
         }
