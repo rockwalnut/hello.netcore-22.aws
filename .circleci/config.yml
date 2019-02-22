@@ -3,40 +3,37 @@ jobs:
   build:
     docker:
       - image: microsoft/dotnet
-    working_directory: ~/hello.agency.eapp
+    working_directory: ~/hello
     steps:
       - checkout
       - run:
           name: Restore
-          command: dotnet restore /Appman.MTL.Agency.EAPP
+          command: dotnet restore 
      # - run:
      #      name: Test
      #      command: |
-     #        dotnet test ./Appman.MTL.Agency.EAPP/Appman.MTL.Agency.EAPP.Test
+     #        dotnet test 
       - run:
           name: Build
           command: |
-            dotnet build ./Appman.MTL.Agency.EAPP/Appman.MTL.Agency.EAPP
-#  deploy:
-#      docker:
-#        - image: appmanagm/Appman.MTL.Agency.EAPP:latest
-#      working_directory: ~/hello.agency.eapp         
-#        - checkout
-#        - run:
-#            name: pack
-#            command: dotnet pack Appman.MTL.Agency.EAPP --configuration=DEV --include-symbols --output nupkgs
+            dotnet build 
+  deploy:
+      docker:
+        - image: appmanagm/hello.api.core:latest
+      working_directory: ~/hello        
+        - checkout
+        - run:
+            name: pack
+            command: dotnet pack hello.api.core --configuration=DEV --include-symbols --output nupkgs
 
-#workflows:
-#  version: 2
-#  build-and-deploy:
-#    jobs:
-#      - build
-#      - deploy:
-#          requires:
-#            - build
-#          filters:
-#            branches:
-#              only: master       
-
-#ci https://circleci.com/add-projects/gh/appman-agm
-#deploy aws
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master 
