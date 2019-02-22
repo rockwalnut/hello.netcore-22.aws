@@ -20,12 +20,12 @@ jobs:
   deploy:
       docker:
         - image: appmanagm/hello.api.core:latest
-      working_directory: ~/hello        
+      working_directory: ~/hello    
+      steps:    
         - checkout
         - run:
             name: pack
-            command: dotnet pack hello.api.core --configuration=DEV --include-symbols --output nupkgs
-
+            command: dotnet pack hello.api.core --configuration=Dev --include-symbols --output nupkgs
 workflows:
   version: 2
   build-and-deploy:
