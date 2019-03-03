@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using Serilog;
 using System;
 using Xunit;
 using Moq;
@@ -8,8 +10,7 @@ using hello.netcore_22.aws;
 using hello.netcore_22.aws.Controllers;
 using hello.netcore_22.aws.Models;
 using hello.netcore_22.aws.Services;
-using System.Collections.Generic;
-using Serilog;
+
 
 namespace hello.netcore_22.aws.test.Controllers
 {
@@ -38,6 +39,7 @@ namespace hello.netcore_22.aws.test.Controllers
             public async void Should_return_OkObjectResult_with_blogs()
             {
                 // Arrange
+                //should serialize from JSON
                 expectedBlog = new Blog[]
                 {
                     new Blog() { 
@@ -70,8 +72,7 @@ namespace hello.netcore_22.aws.test.Controllers
 
                 // Assert
                 var okResult = Assert.IsType<OkObjectResult>(result);
-                var model = Assert.IsType<Blog[]>(
-                okResult.Value);
+                var model = Assert.IsType<Blog[]>(okResult.Value);
 
                 //Log.Information(okResult.Value.GetType().ToString());
                 
