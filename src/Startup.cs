@@ -9,9 +9,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
-using hello.netcore_22.aws.Models;
+//DI
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+
+//model
+using hello.netcore_22.aws.Models;
 using hello.netcore_22.aws.Services;
 using hello.netcore_22.aws.Repositories;
 
@@ -38,7 +41,18 @@ namespace hello.netcore_22.aws
 
             services.AddScoped<IBlogService, BlogService>();
             services.AddScoped<IBlogRepository, BlogRepository>();    
-            services.AddSingleton<DbContext, NorthwindContext>(); 
+            services.AddSingleton<NorthwindContext>(); 
+
+            //parameterize
+            /*services.AddTransient<NorthwindContext>(provider =>
+            {
+                //resolve another classes from DI
+                var anyOtherClass = provider.GetService<AnyOtherClass>();
+
+                //pass any parameters
+                return new NorthwindContext(foo, bar);
+            });*/
+
             //services.TryAddSingleton<NorthwindContext>();
 
             //services.AddScoped<IBlogService, BlogService>();
