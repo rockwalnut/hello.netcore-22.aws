@@ -41,7 +41,7 @@ namespace hello.netcore_22.aws
 
             services.AddScoped<IBlogService, BlogService>();
             services.AddScoped<IBlogRepository, BlogRepository>();    
-            services.AddSingleton<NorthwindContext>(); 
+            services.AddSingleton<DbContext, NorthwindContext>(); 
 
             //parameterize
             /*services.AddTransient<NorthwindContext>(provider =>

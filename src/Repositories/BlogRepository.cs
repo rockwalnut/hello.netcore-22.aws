@@ -72,15 +72,15 @@ namespace hello.netcore_22.aws.Repositories
             var entities = await _BlogEntityTableStorageRepository.ReadPartitionAsync(clanName);
             var Blog = _BlogMappingService.Map(entities);
             return Blog;
-        }
+        } */
 
-        public async Task<Blog> ReadOneAsync(string clanName, string BlogKey)
+        public async Task<Blog> GetAsync(string BlogKey)
         {
-            var entity = await _BlogEntityTableStorageRepository.ReadOneAsync(clanName, BlogKey);
-            var Blog = _BlogMappingService.Map(entity);
+            var Blog = await _context.Blogs.FindAsync(BlogKey);
+            //var Blog = _BlogMappingService.Map(entity);
             return Blog;
         }
-        */
+        
 
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using hello.netcore_22.aws.Exceptions;
 
 //model
 using hello.netcore_22.aws.Models;
@@ -48,6 +49,14 @@ namespace hello.netcore_22.aws.Services
             return _BlogRepository.ListAsync();
         }
 
+        public async Task<Blog> GetAsync(string BlogKey)
+        {
+            var Blog = await EnforceBlogExistenceAsync(BlogKey);
+
+            return Blog;
+        }
+
+
        /*  public async Task<IEnumerable<Blog>> ReadAllInClanAsync(string clanName)
         {
             await EnforceClanExistenceAsync(clanName);
@@ -68,16 +77,17 @@ namespace hello.netcore_22.aws.Services
             {
                 throw new ClanNotFoundException(clanName);
             }
-        }
+        }*/
 
-        private async Task<Blog> EnforceBlogExistenceAsync(string clanName, string BlogKey)
+        private async Task<Blog> EnforceBlogExistenceAsync(string BlogKey)
         {
-            var remoteBlog = await _BlogRepository.ReadOneAsync(clanName, BlogKey);
+            var remoteBlog = await _BlogRepository.GetAsync(BlogKey);
+
             if (remoteBlog == null)
             {
-                throw new BlogNotFoundException(clanName, BlogKey);
+                throw new BlogNotFoundException(BlogKey);
             }
             return remoteBlog;
-        } */
+        } 
     }
 }
