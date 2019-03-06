@@ -39,9 +39,9 @@ namespace hello.netcore_22.aws
             services.AddDbContext<NorthwindContext>(opt =>
                 opt.UseInMemoryDatabase("Northwind"));
 
-            services.AddScoped<IBlogService, BlogService>();
-            services.AddScoped<IBlogRepository, BlogRepository>();    
-            services.AddSingleton<DbContext, NorthwindContext>(); 
+            services.TryAddSingleton<IBlogService, BlogService>();
+            services.TryAddSingleton<IBlogRepository, BlogRepository>();    
+            services.TryAddSingleton<DbContext, NorthwindContext>(); 
 
             //parameterize
             /*services.AddTransient<NorthwindContext>(provider =>

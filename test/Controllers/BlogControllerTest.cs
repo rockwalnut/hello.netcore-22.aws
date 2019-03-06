@@ -18,12 +18,12 @@ namespace hello.netcore_22.aws.test.Controllers
     {
         protected BlogController ControllerUnderTest { get; set; }
 
-        protected Mock<IBlogService> mockServ { get; set; }
+        protected Mock<IBlogService> mockService { get; set; }
 
         public BlogControllerTest()
         {
-            mockServ = new Mock<IBlogService>();
-            ControllerUnderTest = new BlogController(mockServ.Object);
+            mockService = new Mock<IBlogService>();
+            ControllerUnderTest = new BlogController(mockService.Object);
 
             Log.Logger = new LoggerConfiguration()
             .WriteTo.Console()
@@ -65,7 +65,7 @@ namespace hello.netcore_22.aws.test.Controllers
                 };
 
                 //setup DI
-                mockServ.Setup(repo => repo.ListAsync()).ReturnsAsync(expectedBlog);
+                mockService.Setup(repo => repo.ListAsync()).ReturnsAsync(expectedBlog);
 
                 // Act
                 var result = await ControllerUnderTest.ListAsync();
@@ -97,7 +97,7 @@ namespace hello.netcore_22.aws.test.Controllers
                             };
                 
                 //setup DI
-                mockServ.Setup(repo => repo.GetAsync(blogId)).ReturnsAsync(expectedBlog);
+                mockService.Setup(repo => repo.GetAsync(blogId)).ReturnsAsync(expectedBlog);
 
                 // Act
                 var result = await ControllerUnderTest.GetAsync(blogId);
@@ -116,7 +116,7 @@ namespace hello.netcore_22.aws.test.Controllers
                 var blogId = "b1357cd1-2901-3e8c-9852-1e659bceae98";
 
                 //setup DI
-                //mockServ.Setup(repo => repo.GetAsync(blogId)).ReturnsAsync(new Blog());
+                //mockService.Setup(repo => repo.GetAsync(blogId)).ReturnsAsync(new Blog());
 
                 // Act
                 var result = await ControllerUnderTest.GetAsync(blogId);
@@ -127,7 +127,7 @@ namespace hello.netcore_22.aws.test.Controllers
 
                 //Log.Information(notfoundResult.Value);
                 //Assert.Null(notfoundResult.Value);
-                //mockServ.Verify();
+                //mockService.Verify();
             }
         }
     }

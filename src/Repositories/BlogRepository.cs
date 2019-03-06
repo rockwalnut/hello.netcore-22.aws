@@ -74,11 +74,11 @@ namespace hello.netcore_22.aws.Repositories
             return Blog;
         } */
 
-        public async Task<Blog> GetAsync(string BlogKey)
+        public Task<Blog> GetAsync(string BlogKey)
         {
-            var Blog = await _context.Blogs.FindAsync(BlogKey);
+            var blog = _context.Blogs.FindAsync(BlogKey);
             //var Blog = _BlogMappingService.Map(entity);
-            return Blog;
+            return blog;
         }
         
 
