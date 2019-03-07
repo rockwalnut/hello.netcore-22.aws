@@ -8,6 +8,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
 using Serilog;
+using Microsoft.EntityFrameworkCore;
+using Moq;
+using System.Text;
+using Newtonsoft.Json;
 
 //model
 using hello.netcore_22.aws;
@@ -15,10 +19,7 @@ using hello.netcore_22.aws.Controllers;
 using hello.netcore_22.aws.Models;
 using hello.netcore_22.aws.Services;
 using hello.netcore_22.aws.test.Utilities;
-using Newtonsoft.Json;
 using hello.netcore_22.aws.Repositories;
-using Microsoft.EntityFrameworkCore;
-using Moq;
 
 namespace hello.netcore_22.aws.test.Controllers
 {
@@ -79,6 +80,50 @@ namespace hello.netcore_22.aws.test.Controllers
                     clan => Assert.Equal(Blogs.ElementAt(1).Title, blogs[1].Title),
                     clan => Assert.Equal(Blogs.ElementAt(2).Title, blogs[2].Title)
                 );
+            }
+        }
+        public class CreateAsync : BlogControllerITest
+        {
+            [Fact]
+            public async Task Should_create_the_blogs_return_OkObjectResult_with_blogs()
+            {
+                // Arrange
+                var blogToCreate =   new Blog() { 
+                                Id = "b1357cd1-2901-3e8c-9852-1e659bceae98",
+                                Title = "Fantastic Beasts: The Crimes of Grindelwald",
+                                Name = "JK. Rowling",
+                                Description = "Fantastic Beasts: The Crimes of Grindelwald is a 2018 fantasy film directed by David Yates and written by J. K. Rowling. A joint British and American production, it is the sequel to Fantastic Beasts and Where to Find Them (2016). It is the second instalment in the Fantastic Beasts film series, and the tenth overall in the Wizarding World franchise, which began with the Harry Potter film series. The film features an ensemble cast that includes Eddie Redmayne, Katherine Waterston, Dan Fogler, Alison Sudol, Ezra Miller, Zoë Kravitz, Callum Turner, Claudia Kim, William Nadylam, Kevin Guthrie, Jude Law, and Johnny Depp. The plot follows Newt Scamander and Albus Dumbledore as they attempt to take down the dark wizard Gellert Grindelwald, while facing new threats in a more divided wizarding world.",
+                                Level = 9, 
+                                Created = DateTime.Now
+                            };
+
+                var blogBody = JsonConvert.SerializeObject(blogToCreate); //blogToCreate.ToJsonHttpContent();
+                var httpContent = new StringContent(blogBody, Encoding.UTF8, "application/json");
+                //var mapper = new Mappers.BlogEntityToBlogMapper();
+                //BlogEntity createdEntity = null;
+                
+                mockRepository.Setup(x => x.CreateAsync(blogToCreate))
+                    .ReturnsAsync(blogToCreate);
+
+                // Act
+                var result = await Client.PostAsync("api/blog/post", httpContent);
+
+                // Assert
+                result.EnsureSuccessStatusCode();
+                var stringResponse = await result.Content.ReadAsStringAsync();
+                var blog = JsonConvert.DeserializeObject<Blog>(stringResponse);
+
+                //Log.Information(stringResponse);
+
+                Assert.NotNull(blog);
+               // Assert.NotNull(createdEntity);
+
+                //try to get
+                /* result = await Client.GetAsync("api/blog/get/hello");
+
+                result.EnsureSuccessStatusCode();
+                stringResponse = await result.Content.ReadAsStringAsync();
+                Log.Information(stringResponse); */
             }
 }
     }
