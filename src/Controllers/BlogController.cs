@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 //service
 using hello.netcore_22.aws.Services;
 using Microsoft.AspNetCore.Cors;
+using hello.netcore_22.aws.Exceptions;
 
 namespace hello.netcore_22.aws.Controllers
 {
@@ -56,6 +57,27 @@ namespace hello.netcore_22.aws.Controllers
             );
         }
 
+
+        [EnableCors("AllowCores")]
+        [Route("get/{key}")]
+        [HttpGet]
+        [ProducesResponseType(typeof(Blog), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetAsync(string key)
+        {
+            var blog = await _blogService.GetAsync(key);
+
+            if(blog == null)
+            {
+                return NotFound();
+            } 
+            else
+            {
+                return Ok(blog);
+            }
+        }
+
+
         /*  [HttpGet("{clan}")]
         [ProducesResponseType(typeof(IEnumerable<Ninja>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -67,22 +89,6 @@ namespace hello.netcore_22.aws.Controllers
                 return Ok(clanNinja);
             }
             catch (ClanNotFoundException)
-            {
-                return NotFound();
-            }
-        }
-
-        [HttpGet("{clan}/{key}")]
-        [ProducesResponseType(typeof(Ninja), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> ReadOneAsync(string clan, string key)
-        {
-            try
-            {
-                var ninja = await _ninjaService.ReadOneAsync(clan, key);
-                return Ok(ninja);
-            }
-            catch (NinjaNotFoundException)
             {
                 return NotFound();
             }

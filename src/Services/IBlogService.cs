@@ -12,9 +12,10 @@ namespace hello.netcore_22.aws.Services
     {
         Task<IEnumerable<Blog>> ListAsync();
         //Task<IEnumerable<Blog>> ReadAllInClanAsync(string clanName);
-        //Task<Ninja> ReadOneAsync(string clanName, string ninjaKey);
-        Task<Blog> CreateAsync(Blog ninja);
-        Task<Blog> UpdateAsync(Blog ninja);
+        
+        Task<Blog> GetAsync(string id);
+        Task<Blog> CreateAsync(Blog blog);
+        Task<Blog> UpdateAsync(Blog blog);
         Task<Blog> DeleteAsync(string id);
     }
 }

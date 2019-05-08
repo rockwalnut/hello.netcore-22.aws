@@ -12,7 +12,7 @@ namespace hello.netcore_22.aws.Repositories
     {
         Task<IEnumerable<Blog>> ListAsync();
        // Task<IEnumerable<Blog>> ReadAllInClanAsync(string clanName);
-      //  Task<Blog> ReadOneAsync(string clanName, string BlogKey);
+        Task<Blog> GetAsync(string BlogKey);
         Task<Blog> CreateAsync(Blog Blog);
         Task<Blog> UpdateAsync(Blog Blog);
         Task<Blog> DeleteAsync(string id);

@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/hello.netcore-22.aws.csproj"
+                "${workspaceFolder}/hello.netcore-22.aws.sln"
             ],
             "problemMatcher": "$msCompile"
         }
